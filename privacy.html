@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,70 +8,329 @@
   <meta name="theme-color" content="#0f2060">
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
   <style>
     :root {
-      --b1: #0a1a6e; --b2: #1a3aaf; --b3: #2563eb;
-      --g1: #15803d; --g2: #22c55e;
+      --b1: #0a1a6e;
+      --b2: #1a3aaf;
+      --b3: #2563eb;
+      --g1: #15803d;
+      --g2: #22c55e;
       --grad: linear-gradient(135deg, #1a3aaf 0%, #22c55e 100%);
       --grad-soft: linear-gradient(135deg, rgba(26, 58, 175, .08) 0%, rgba(34, 197, 94, .08) 100%);
-      --ink: #0f172a; --ink2: #475569; --ink3: #94a3b8;
-      --bg: #f8faff; --white: #fff; --border: #e2e8f0;
+      --ink: #0f172a;
+      --ink2: #475569;
+      --ink3: #94a3b8;
+      --bg: #f8faff;
+      --white: #fff;
+      --border: #e2e8f0;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
-    
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
     /* NAV (simplified) */
-    nav { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); width: calc(100% - 48px); max-width: 1120px; z-index: 300; height: 72px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, .65); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, .8); border-radius: 100px; box-shadow: 0 10px 40px -10px rgba(0, 0, 0, .08), inset 0 1px 1px rgba(255, 255, 255, .9); }
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo img { height: 42px; width: auto; }
-    .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
-    .nav-links a { font-size: 15px; font-weight: 500; color: var(--ink2); text-decoration: none; padding: 10px 18px; border-radius: 100px; transition: all .25s ease; }
-    .nav-links a:hover { background: rgba(37, 99, 235, .04); color: var(--b2); }
-    .nav-cta { background: var(--grad) !important; color: #fff !important; font-weight: 600 !important; padding: 10px 24px !important; border-radius: 100px !important; box-shadow: 0 4px 14px rgba(26, 58, 175, .25), inset 0 1px 1px rgba(255, 255, 255, .3) !important; text-decoration: none; transition: all .3s cubic-bezier(.16, 1, .3, 1) !important; position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; }
-    .nav-cta::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .3), transparent); transition: .5s; }
-    .nav-cta:hover { box-shadow: 0 6px 20px rgba(26, 58, 175, .35), inset 0 1px 1px rgba(255, 255, 255, .4) !important; transform: translateY(-2px); opacity: 1 !important; }
-    .nav-cta:hover::after { left: 100%; }
+    nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1120px;
+      z-index: 300;
+      height: 72px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, .65);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: 100px;
+      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, .08), inset 0 1px 1px rgba(255, 255, 255, .9);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 42px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink2);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 100px;
+      transition: all .25s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(37, 99, 235, .04);
+      color: var(--b2);
+    }
+
+    .nav-cta {
+      background: var(--grad) !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      padding: 10px 24px !important;
+      border-radius: 100px !important;
+      box-shadow: 0 4px 14px rgba(26, 58, 175, .25), inset 0 1px 1px rgba(255, 255, 255, .3) !important;
+      text-decoration: none;
+      transition: all .3s cubic-bezier(.16, 1, .3, 1) !important;
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-cta::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .3), transparent);
+      transition: .5s;
+    }
+
+    .nav-cta:hover {
+      box-shadow: 0 6px 20px rgba(26, 58, 175, .35), inset 0 1px 1px rgba(255, 255, 255, .4) !important;
+      transform: translateY(-2px);
+      opacity: 1 !important;
+    }
+
+    .nav-cta:hover::after {
+      left: 100%;
+    }
 
     /* CONTENT */
-    .doc-sec { max-width: 800px; margin: 0 auto; padding: 160px 24px 80px; }
-    h1 { font-family: 'Fraunces', serif; font-size: 48px; margin-bottom: 24px; letter-spacing: -0.02em; }
-    h2 { font-family: 'Fraunces', serif; font-size: 28px; margin: 48px 0 16px; font-weight: 500; }
-    h3 { font-size: 20px; margin: 32px 0 12px; font-weight: 600; color: var(--ink); }
-    p { margin-bottom: 24px; color: var(--ink2); font-size: 17px; line-height: 1.7; }
-    ul { margin-bottom: 24px; padding-left: 24px; color: var(--ink2); font-size: 17px; line-height: 1.7; }
-    li { margin-bottom: 8px; }
-    .last-updated { font-size: 14px; color: var(--ink3); font-family: 'DM Mono', monospace; margin-bottom: 48px; display: inline-block; padding: 6px 14px; background: rgba(0,0,0,0.04); border-radius: 30px; }
+    .doc-sec {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 160px 24px 80px;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 48px;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 28px;
+      margin: 48px 0 16px;
+      font-weight: 500;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin: 32px 0 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    p {
+      margin-bottom: 24px;
+      color: var(--ink2);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    ul {
+      margin-bottom: 24px;
+      padding-left: 24px;
+      color: var(--ink2);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .last-updated {
+      font-size: 14px;
+      color: var(--ink3);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 48px;
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 30px;
+    }
 
     /* FOOTER (simplified) */
-    footer { background: #060a14; padding: 60px 40px 30px; margin-top: 60px; color: rgba(255,255,255,0.5); font-size: 14px; text-align: center; }
-    footer a { color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 10px; transition: color .2s; }
-    footer a:hover { color: #fff; }
+    footer {
+      background: #060a14;
+      padding: 60px 40px 30px;
+      margin-top: 60px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+      text-align: center;
+    }
 
-    nav.up { top: 16px; height: 64px; background: rgba(255, 255, 255, .85); border-color: rgba(255, 255, 255, .9); box-shadow: 0 16px 40px -8px rgba(10, 26, 110, .12), inset 0 1px 1px rgba(255, 255, 255, 1); }
-    .ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; border-radius: 8px; transition: background .15s; -webkit-tap-highlight-color: transparent }
-    .ham:hover { background: rgba(0,0,0,0.05); }
-    .ham span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: all .3s }
-    .mob-nav { display: none; position: fixed; top: 96px; left: 20px; right: 20px; background: rgba(255, 255, 255, .95); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-radius: 24px; border: 1px solid rgba(255, 255, 255, .8); padding: 16px 20px 24px; z-index: 290; flex-direction: column; gap: 4px; box-shadow: 0 20px 60px -10px rgba(0, 0, 0, .15), inset 0 1px 1px rgba(255, 255, 255, .9); transform: translateY(-10px); opacity: 0; transition: transform .3s cubic-bezier(.16, 1, .3, 1), opacity .3s }
-    .mob-nav.open { display: flex; transform: none; opacity: 1 }
-    .mob-nav a { font-size: 16px; font-weight: 500; color: var(--ink); text-decoration: none; padding: 14px 16px; border-radius: 16px; transition: background .15s; -webkit-tap-highlight-color: transparent }
-    .mob-nav a:hover, .mob-nav a:active { background: rgba(37, 99, 235, .04); color: var(--b2) }
-    .mob-cta { background: var(--grad) !important; color: #fff !important; font-weight: 600 !important; text-align: center; margin-top: 12px; border-radius: 100px !important; box-shadow: 0 4px 14px rgba(26, 58, 175, .25), inset 0 1px 1px rgba(255, 255, 255, .3) !important; }
+    footer a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color .2s;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    nav.up {
+      top: 16px;
+      height: 64px;
+      background: rgba(255, 255, 255, .85);
+      border-color: rgba(255, 255, 255, .9);
+      box-shadow: 0 16px 40px -8px rgba(10, 26, 110, .12), inset 0 1px 1px rgba(255, 255, 255, 1);
+    }
+
+    .ham {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: background .15s;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .ham:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .ham span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: all .3s
+    }
+
+    .mob-nav {
+      display: none;
+      position: fixed;
+      top: 96px;
+      left: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, .95);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, .8);
+      padding: 16px 20px 24px;
+      z-index: 290;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 20px 60px -10px rgba(0, 0, 0, .15), inset 0 1px 1px rgba(255, 255, 255, .9);
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: transform .3s cubic-bezier(.16, 1, .3, 1), opacity .3s
+    }
+
+    .mob-nav.open {
+      display: flex;
+      transform: none;
+      opacity: 1
+    }
+
+    .mob-nav a {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 14px 16px;
+      border-radius: 16px;
+      transition: background .15s;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .mob-nav a:hover,
+    .mob-nav a:active {
+      background: rgba(37, 99, 235, .04);
+      color: var(--b2)
+    }
+
+    .mob-cta {
+      background: var(--grad) !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      text-align: center;
+      margin-top: 12px;
+      border-radius: 100px !important;
+      box-shadow: 0 4px 14px rgba(26, 58, 175, .25), inset 0 1px 1px rgba(255, 255, 255, .3) !important;
+    }
 
     @media(max-width:900px) {
-      nav { height: 60px; padding: 0 20px; border-radius: 20px; }
-      .ham { display: flex; }
-      .nav-links { display: none; }
-      h1 { font-size: 36px; }
-      .doc-sec { padding-top: 120px; }
+      nav {
+        height: 60px;
+        padding: 0 20px;
+        border-radius: 20px;
+      }
+
+      .ham {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .doc-sec {
+        padding-top: 120px;
+      }
     }
   </style>
 </head>
+
 <body>
   <!-- NAV -->
   <nav>
     <a href="index.html" class="logo">
-      <img src="./logo.png" alt="RxBot" style="height:42px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img src="./logo.png" alt="RxBot" style="height:42px"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
     </a>
     <ul class="nav-links">
       <li><a href="index.html#features">Features</a></li>
@@ -93,44 +353,70 @@
   <section class="doc-sec">
     <h1>Privacy Policy</h1>
     <div class="last-updated">Last Updated: March 2026</div>
-    
-    <p>At RxBot ("we," "our," or "us"), we are committed to protecting the privacy and security of the personal and medical information processed through our WhatsApp-based AI assistant. This Privacy Policy outlines how we collect, use, process, and safeguard data in compliance with the Digital Personal Data Protection Act, 2023 (DPDPA) of India and applicable telemedicine guidelines.</p>
+
+    <p>At RxBot ("we," "our," or "us"), we are committed to protecting the privacy and security of the personal and
+      medical information processed through our WhatsApp-based AI assistant. This Privacy Policy outlines how we
+      collect, use, process, and safeguard data in compliance with the Digital Personal Data Protection Act, 2023
+      (DPDPA) of India and applicable telemedicine guidelines.</p>
 
     <h2>1. Information We Collect</h2>
-    <p>RxBot operates as a data processor for registered medical practitioners. We collect the following types of information:</p>
+    <p>RxBot operates as a data processor for registered medical practitioners. <strong>We explicitly collect WhatsApp
+        phone numbers and prescription data</strong> to fulfill our core services. Down to specifics, we collect the
+      following types of information:</p>
     <ul>
-      <li><strong>Doctor Information:</strong> Name, clinic details, WhatsApp mobile number, email address, and registration credentials.</li>
-      <li><strong>Patient Information:</strong> WhatsApp phone numbers, patient names, and demographic details explicitly provided by the doctor for prescription generation.</li>
-      <li><strong>Medical Data:</strong> Images of handwritten prescriptions, audio notes for transcription, generated digital prescriptions (PDFs), and structured medicine dosages processed via our AI models.</li>
+      <li><strong>Doctor Information:</strong> Name, clinic details, WhatsApp mobile number, email address, and
+        registration credentials.</li>
+      <li><strong>Patient Information:</strong> WhatsApp phone numbers, patient names, and demographic details
+        explicitly provided by the doctor for prescription generation.</li>
+      <li><strong>Medical Data:</strong> Images of handwritten prescriptions, audio notes for transcription, generated
+        digital prescriptions (PDFs), and structured medicine dosages processed via our AI models.</li>
     </ul>
 
     <h2>2. How We Use and Process Data</h2>
     <p>We process data exclusively for the purpose of providing the RxBot service to you:</p>
     <ul>
-      <li><strong>AI Parsing:</strong> Using advanced third-party LLMs (such as Anthropic Claude via API) to extract and structure handwritten, dictated, or typed medical information into verifiable digital records.</li>
-      <li><strong>Communication:</strong> Transmitting generated prescriptions (PDFs), follow-up messages, dosage reminders, and actionable buttons directly to patients via the WhatsApp Business API.</li>
-      <li><strong>Clinic Referrals:</strong> Orchestrating the automated referral module for doctors utilizing our system.</li>
+      <li><strong>AI Parsing:</strong> Using advanced third-party LLMs (such as Anthropic Claude via API) to extract and
+        structure handwritten, dictated, or typed medical information into verifiable digital records.</li>
+      <li><strong>Communication:</strong> Transmitting generated prescriptions (PDFs), follow-up messages, dosage
+        reminders, and actionable buttons directly to patients via the WhatsApp Business API.</li>
+      <li><strong>Clinic Referrals:</strong> Orchestrating the automated referral module for doctors utilizing our
+        system.</li>
     </ul>
 
     <h2>3. Data Sharing with Third Parties</h2>
     <p>To provide core functionalities, RxBot shares necessary data fragments safely with trusted sub-processors:</p>
     <ul>
-      <li><strong>Meta (WhatsApp Business API):</strong> Used strictly for message delivery. All communication flows through Meta's secure cloud infrastructural guardrails.</li>
-      <li><strong>AI Partners (e.g., Anthropic, OpenAI):</strong> For interpreting messy handwriting via OCR or parsing voice notes. Crucially, we utilize zero-retention enterprise API endpoints where applicable, meaning third parties do not utilize your patients' PHI to train their foundational models.</li>
-      <li><strong>Database Services:</strong> Hosted natively on secure infrastructure (e.g., Supabase) with geographic constraints favoring Indian data localization compliances.</li>
+      <li><strong>Meta (WhatsApp Business API):</strong> Used strictly for message delivery. All communication flows
+        through Meta's secure cloud infrastructural guardrails.</li>
+      <li><strong>AI Partners (e.g., Anthropic, OpenAI):</strong> For interpreting messy handwriting via OCR or parsing
+        voice notes. Crucially, we utilize zero-retention enterprise API endpoints where applicable, meaning third
+        parties do not utilize your patients' PHI to train their foundational models.</li>
+      <li><strong>Database Services:</strong> Hosted natively on secure infrastructure (e.g., Supabase) with geographic
+        constraints favoring Indian data localization compliances.</li>
     </ul>
 
     <h2>4. Data Retention and Security</h2>
-    <p>Prescription images and audio buffers sent to our WhatsApp number are temporarily processed in protected volatile memory and securely deleted after successful PDF generation and delivery. The finalized digital prescriptions and metadata are retained in an encrypted database strictly to provide historical access to the Doctor requesting it. We deploy industry-standard TLS encryption for data in transit and AES-256 for data at rest.</p>
+    <p>Prescription images and audio buffers sent to our WhatsApp number are temporarily processed in protected volatile
+      memory and securely deleted after successful PDF generation and delivery. The finalized digital prescriptions and
+      metadata are retained in an encrypted database strictly to provide historical access to the Doctor requesting it.
+      We deploy industry-standard TLS encryption for data in transit and AES-256 for data at rest.</p>
 
     <h2>5. Doctor's Responsibility and Consent</h2>
-    <p>As the "Data Fiduciary" (under DPDPA 2023), the Doctor holds the primary responsibility to secure explicit and informed consent from the patient regarding the digital processing and transmission of their medical data via WhatsApp. RxBot, as the "Data Processor," acts strictly upon the Doctor's commands.</p>
+    <p>As the "Data Fiduciary" (under DPDPA 2023), the Doctor holds the primary responsibility to secure explicit and
+      informed consent from the patient regarding the digital processing and transmission of their medical data via
+      WhatsApp. RxBot, as the "Data Processor," acts strictly upon the Doctor's commands.</p>
 
-    <h2>6. Patient Rights</h2>
-    <p>Patients retain full rights to request the deletion of their digital records, opt-out of follow-up messages, or export their data. Requests can be invoked via the WhatsApp interface or directly through the consulting doctor, which our automated cleanup scripts and routines will honor expeditiously.</p>
+    <h2>6. User Data Deletion Rights</h2>
+    <p><strong>Users can request deletion of their data at any time.</strong> Patients and doctors retain full rights to
+      request the permanent deletion of their digital records, opt-out of follow-up messages, or export their data. Data
+      deletion requests can be invoked directly via the WhatsApp interface or by emailing our support team, which our
+      automated cleanup scripts and routines will honor expeditiously.</p>
 
     <h2>7. Contact Us</h2>
-    <p>For questions or concerns regarding these privacy practices, or to report a data grievance, contact our Data Protection Officer at: <br><br><strong>Email:</strong> <a href="mailto:care@rxbot.in" style="color:var(--b3); text-decoration:none; font-weight:500;">care@rxbot.in</a></p>
+    <p>For questions or concerns regarding these privacy practices, or to report a data grievance, contact us at:
+      <br><br><strong>Business Name:</strong> RxBot<br><strong>Email:</strong> <a href="mailto:care@rxbot.in"
+        style="color:var(--b3); text-decoration:none; font-weight:500;">care@rxbot.in</a>
+    </p>
   </section>
 
   <!-- FOOTER -->
@@ -159,7 +445,7 @@
     }
     function closeMob() {
       const m = document.getElementById('mob-nav');
-      if(m) {
+      if (m) {
         m.classList.remove('open');
         const h = document.getElementById('ham');
         h.children[0].style.transform = '';
@@ -173,4 +459,5 @@
     });
   </script>
 </body>
+
 </html>
