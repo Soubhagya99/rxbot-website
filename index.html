@@ -1547,19 +1547,34 @@
       }
 
       .stats {
-        flex-direction: column;
+        flex-direction: row;
         gap: 0;
-        border-top: 1px solid var(--border)
+        border-top: 1px solid var(--border);
+        padding-top: 24px;
       }
 
       .stat {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding: 14px 0 !important
+        border-right: 1px solid var(--border);
+        border-bottom: none;
+        padding: 0 12px !important;
+      }
+
+      .stat:first-child {
+        padding-left: 0 !important;
       }
 
       .stat:last-child {
-        border-bottom: none
+        border-right: none;
+        border-bottom: none;
+      }
+
+      .stat-v {
+        font-size: 28px;
+        margin-bottom: 2px;
+      }
+
+      .stat-l {
+        font-size: 11px;
       }
 
       .btns {
