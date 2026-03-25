@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RxBot — Digital Prescriptions via WhatsApp</title>
+<meta name="description" content="Send digital prescriptions to patients on WhatsApp in seconds. Photo your handwritten Rx — AI reads it, patient receives it. Auto follow-ups included. Made for Indian doctors.">
+<meta property="og:title" content="RxBot — Digital Prescriptions via WhatsApp">
+<meta property="og:description" content="Photo your prescription. Patient gets digital Rx in seconds. Auto follow-ups. Made for India.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0f4c35">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g1:#0f4c35;
+  --g2:#1a7a52;
+  --g3:#2ebd7e;
+  --g4:#d4ede1;
+  --ink:#141412;
+  --ink2:#4e4e4a;
+  --ink3:#9e9c94;
+  --bg:#f8f7f3;
+  --bg2:#f0ede6;
+  --white:#fff;
+  --border:#dedad2;
+  --wa:#075e54;
+  --wa2:#25d366;
+  --wa-bg:#e5ddd5;
+  --wa-r:#ffffff;
+  --wa-s:#d9f7be;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;font-size:16px}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
+
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:200;height:62px;padding:0 44px;display:flex;align-items:center;justify-content:space-between;background:rgba(248,247,243,.88);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+nav.up{border-color:var(--border);box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.logo{font-family:'Fraunces',serif;font-size:21px;color:var(--g1);text-decoration:none;letter-spacing:-.03em;display:flex;align-items:center;gap:7px;font-weight:500}
+.logo-rx{color:var(--g2)}
+.logo-pip{width:6px;height:6px;background:var(--g3);border-radius:50%;flex-shrink:0;animation:pip 3s ease-in-out infinite}
+@keyframes pip{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+.navl{display:flex;gap:4px;list-style:none;align-items:center}
+.navl a{font-size:13.5px;color:var(--ink2);text-decoration:none;padding:7px 13px;border-radius:8px;transition:background .15s,color .15s}
+.navl a:hover{background:rgba(0,0,0,.05);color:var(--ink)}
+.nav-btn{background:var(--g2)!important;color:#fff!important;font-weight:500!important;padding:8px 18px!important;box-shadow:0 2px 10px rgba(26,122,82,.2)!important;transition:background .2s,transform .15s,box-shadow .2s!important}
+.nav-btn:hover{background:var(--g1)!important;transform:translateY(-1px)!important;box-shadow:0 4px 16px rgba(26,122,82,.3)!important}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:9px;border-radius:8px}
+.hbg span{display:block;width:22px;height:1.5px;background:var(--ink);border-radius:2px;transition:all .3s}
+.mob{display:none;position:fixed;top:62px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 20px;z-index:190;flex-direction:column;gap:3px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.mob.on{display:flex}
+.mob a{font-size:15px;color:var(--ink2);text-decoration:none;padding:12px 14px;border-radius:9px;transition:background .15s}
+.mob a:hover{background:rgba(0,0,0,.05)}
+.mob-btn{background:var(--g2)!important;color:#fff!important;font-weight:500!important;text-align:center;margin-top:6px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;max-width:1120px;margin:0 auto;padding:100px 48px 80px;gap:72px}
+.hero-l{flex:1;min-width:0}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--g4);color:var(--g2);padding:6px 14px;border-radius:30px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;margin-bottom:28px;border:1px solid rgba(26,122,82,.15)}
+.hero-badge-dot{width:5px;height:5px;background:var(--g3);border-radius:50%;animation:pip 2s infinite}
+h1{font-family:'Fraunces',serif;font-size:clamp(38px,5.2vw,64px);line-height:1.06;letter-spacing:-.03em;color:var(--ink);margin-bottom:20px;font-weight:400}
+h1 .italic{font-style:italic;color:var(--g2)}
+.hero-desc{font-size:17.5px;color:var(--ink2);line-height:1.75;max-width:460px;margin-bottom:40px;font-weight:300}
+.hero-desc strong{color:var(--ink);font-weight:500}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:10px;font-size:14.5px;font-weight:500;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-solid{background:var(--g2);color:#fff;box-shadow:0 4px 14px rgba(26,122,82,.22)}
+.btn-solid:hover{background:var(--g1);transform:translateY(-2px);box-shadow:0 8px 22px rgba(26,122,82,.3)}
+.btn-line{color:var(--ink2);border:1.5px solid var(--border);background:var(--white)}
+.btn-line:hover{border-color:var(--ink3);color:var(--ink);background:var(--bg2)}
+.hero-proof{display:flex;gap:0;margin-top:52px;padding-top:36px;border-top:1px solid var(--border)}
+.hproof{flex:1;padding:0 28px;border-right:1px solid var(--border)}
+.hproof:first-child{padding-left:0}
+.hproof:last-child{border-right:none}
+.hproof-val{font-family:'Fraunces',serif;font-size:36px;color:var(--ink);line-height:1;margin-bottom:4px}
+.hproof-lbl{font-size:12.5px;color:var(--ink3);line-height:1.4}
+
+/* HERO PHONE */
+.hero-r{flex-shrink:0;width:288px}
+.hphone{background:linear-gradient(160deg,#262624,#141412);border-radius:44px;padding:13px;box-shadow:0 52px 100px rgba(0,0,0,.24),0 0 0 1px rgba(255,255,255,.06),inset 0 1px 0 rgba(255,255,255,.07);animation:levitate 8s ease-in-out infinite}
+@keyframes levitate{0%,100%{transform:translateY(0) rotate(0deg)}40%{transform:translateY(-10px) rotate(.4deg)}70%{transform:translateY(-5px) rotate(-.2deg)}}
+.hnotch{width:72px;height:9px;background:#0f0f0e;border-radius:5px;margin:0 auto 8px}
+.hscreen{background:var(--wa-bg);border-radius:32px;overflow:hidden}
+.wa-hdr{background:var(--wa);padding:11px 14px;display:flex;align-items:center;gap:9px}
+.wa-av{border-radius:50%;background:var(--wa2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;font-size:11px;width:32px;height:32px}
+.wa-n{font-size:12.5px;font-weight:600;color:#fff;line-height:1.2}
+.wa-s{font-size:9.5px;color:rgba(255,255,255,.6)}
+.wa-b{padding:10px;display:flex;flex-direction:column;gap:7px}
+.bb{max-width:92%;padding:8px 10px 4px;border-radius:9px;font-size:11.5px;line-height:1.55;color:#111}
+.bb.r{background:var(--wa-r);border-top-left-radius:2px;align-self:flex-start}
+.bb.s{background:var(--wa-s);border-top-right-radius:2px;align-self:flex-end}
+.btime{font-size:9px;color:#aaa;text-align:right;margin-top:3px;font-family:'DM Mono',monospace}
+.mchip{background:rgba(0,0,0,.05);border-radius:5px;padding:4px 7px;margin-top:3px;font-size:10.5px}
+.mn{font-weight:600}
+.md{font-family:'DM Mono',monospace;font-size:9.5px;color:#555;margin-top:1px}
+.wb-row{display:flex;flex-direction:column;gap:3px;margin-top:5px}
+.wb{padding:5px 8px;border-radius:6px;font-size:10px;font-weight:600;text-align:center;cursor:default}
+.wb.g{border:1px solid rgba(15,76,53,.25);color:#0a6e3f;background:rgba(15,76,53,.06)}
+.wb.b{border:1px solid rgba(0,100,200,.22);color:#0a75cc;background:rgba(0,100,200,.05)}
+/* Hero bubble anim */
+.hb{opacity:0;animation:bblin .4s ease forwards}
+.hb:nth-child(1){animation-delay:.5s}.hb:nth-child(2){animation-delay:1.2s}.hb:nth-child(3){animation-delay:2s}.hb:nth-child(4){animation-delay:2.8s}
+@keyframes bblin{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+/* WHY SECTION */
+.why-wrap{background:var(--ink);padding:88px 0}
+.why-inner{max-width:1120px;margin:0 auto;padding:0 48px}
+.why-wrap .stag{color:var(--g3)}
+.why-wrap h2{color:#fff}
+.why-wrap .sdesc{color:rgba(255,255,255,.4);max-width:480px;margin-bottom:0}
+.why-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:40px;flex-wrap:wrap}
+.why-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;border:1.5px solid rgba(255,255,255,.06)}
+.why-card{background:#1a1a18;padding:38px 32px;transition:background .2s}
+.why-card:hover{background:#1e1e1c}
+.why-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px;background:rgba(46,189,126,.1);border:1px solid rgba(46,189,126,.15)}
+.why-t{font-size:16px;font-weight:500;color:#fff;margin-bottom:10px}
+.why-d{font-size:13.5px;color:rgba(255,255,255,.42);line-height:1.75}
+
+/* HOW IT WORKS */
+.sec{max-width:1120px;margin:0 auto;padding:100px 48px}
+.stag{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--g2);text-transform:uppercase;letter-spacing:.09em;margin-bottom:14px}
+h2{font-family:'Fraunces',serif;font-size:clamp(30px,4vw,50px);line-height:1.08;letter-spacing:-.025em;margin-bottom:14px;font-weight:400}
+.sdesc{font-size:17px;color:var(--ink2);line-height:1.7;font-weight:300;margin-bottom:60px}
+
+.how-grid{display:flex;flex-direction:column;gap:0}
+.hrow{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;padding:80px 0;border-bottom:1px solid var(--border)}
+.hrow:last-child{border-bottom:none}
+.hrow.flip{direction:rtl}
+.hrow.flip>*{direction:ltr}
+.sn{font-family:'Fraunces',serif;font-size:96px;color:rgba(0,0,0,.04);line-height:1;margin-bottom:2px;font-style:italic}
+.st{font-size:25px;font-weight:500;color:var(--ink);margin-bottom:12px;letter-spacing:-.02em;line-height:1.25;font-family:'Fraunces',serif}
+.sd{font-size:15px;color:var(--ink2);line-height:1.8;margin-bottom:18px}
+.sbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:'DM Mono',monospace;color:var(--g2);background:var(--g4);padding:4px 12px;border-radius:5px;border:1px solid rgba(26,122,82,.12)}
+.ph-wrap{display:flex;justify-content:center}
+.ph-lbl{font-size:10px;font-family:'DM Mono',monospace;color:var(--ink3);text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.phone{background:linear-gradient(145deg,#242422,#161614);border-radius:30px;padding:10px;box-shadow:0 24px 56px rgba(0,0,0,.16),0 0 0 1px rgba(255,255,255,.04);width:242px}
+.pnotch{width:58px;height:8px;background:#0f0f0e;border-radius:4px;margin:0 auto 6px}
+.pscreen{background:var(--wa-bg);border-radius:22px;overflow:hidden}
+.mini-hdr{background:var(--wa);padding:9px 12px;display:flex;align-items:center;gap:8px}
+.mav{width:26px;height:26px;border-radius:50%;background:var(--wa2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
+.mn2{font-size:11px;font-weight:600;color:#fff}
+.ms{font-size:9px;color:rgba(255,255,255,.6)}
+.pb{padding:8px;display:flex;flex-direction:column;gap:6px}
+.mb{max-width:93%;padding:7px 9px 4px;border-radius:8px;font-size:10.5px;line-height:1.5;color:#111}
+.mb.r{background:var(--wa-r);border-top-left-radius:2px;align-self:flex-start}
+.mb.s{background:var(--wa-s);border-top-right-radius:2px;align-self:flex-end}
+.mtime{font-size:8.5px;color:#bbb;text-align:right;margin-top:2px;font-family:'DM Mono',monospace}
+.mchip2{background:rgba(0,0,0,.05);border-radius:5px;padding:4px 6px;margin-top:2px;font-size:9.5px}
+.mn3{font-weight:600}
+.md2{font-family:'DM Mono',monospace;font-size:9px;color:#555;margin-top:1px}
+.crow2{display:flex;gap:5px;align-items:flex-start;padding:4px 6px;border-radius:4px;margin-top:2px;font-size:9.5px}
+.crow2.ok{background:rgba(46,189,126,.1)}.crow2.am{background:rgba(239,159,39,.1)}
+.ci2{font-size:10px;flex-shrink:0}
+.ct2{flex:1;line-height:1.4;color:#333}.cd2{font-family:'DM Mono',monospace;font-size:8.5px;color:#888;display:block}
+.mwbr{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.mwb{padding:5px 7px;border-radius:5px;font-size:9px;font-weight:600;text-align:center}
+.mwb.b{border:1px solid rgba(0,100,200,.22);color:#0a75cc;background:rgba(0,100,200,.05)}
+.mwb.g{border:1px solid rgba(15,76,53,.22);color:#0a6e3f;background:rgba(15,76,53,.05)}
+.cdiv{text-align:center;font-size:8.5px;font-family:'DM Mono',monospace;color:#bbb;padding:3px 0}
+
+/* PROOF */
+.proof-sec{background:var(--g4);padding:80px 48px;border-top:1px solid rgba(26,122,82,.12);border-bottom:1px solid rgba(26,122,82,.12)}
+.proof-in{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:60px;flex-wrap:wrap}
+.quote-mark{font-family:'Fraunces',serif;font-size:80px;color:rgba(26,122,82,.15);line-height:1;flex-shrink:0;margin-top:-20px;font-style:italic}
+.qtext{font-family:'Fraunces',serif;font-size:clamp(20px,2.8vw,30px);line-height:1.45;color:var(--ink);font-style:italic;flex:1}
+.qattr{flex-shrink:0;min-width:160px}
+.qstars{font-size:14px;color:var(--g2);letter-spacing:2px;margin-bottom:6px}
+.qname{font-size:14px;font-weight:500;color:var(--g1)}
+.qrole{font-size:13px;color:var(--ink3);margin-top:2px}
+
+/* CTA */
+.cta-sec{background:var(--g1);padding:96px 48px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 120%,rgba(46,189,126,.18) 0%,transparent 70%);pointer-events:none}
+.cta-sec h2{color:#fff;margin-bottom:14px;position:relative}
+.cta-sec p{color:rgba(255,255,255,.5);font-size:17px;font-weight:300;margin-bottom:44px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7;position:relative}
+.cta-wa-btn{display:inline-flex;align-items:center;gap:10px;background:var(--g3);color:var(--ink);padding:16px 32px;border-radius:12px;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;box-shadow:0 6px 24px rgba(46,189,126,.3);position:relative}
+.cta-wa-btn:hover{background:#25a869;transform:translateY(-2px);box-shadow:0 10px 32px rgba(46,189,126,.4)}
+.cta-note{font-size:12.5px;color:rgba(255,255,255,.3);margin-top:18px;font-family:'DM Mono',monospace;position:relative}
+
+/* FOOTER */
+footer{background:#0a0a08;padding:56px 48px 36px}
+.fi{max-width:1120px;margin:0 auto}
+.ft{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:48px;gap:40px;flex-wrap:wrap}
+.fbrand{font-family:'Fraunces',serif;font-size:24px;color:#fff;display:flex;align-items:center;gap:7px;font-weight:400}
+.fbrand-dot{width:5px;height:5px;background:var(--g3);border-radius:50%}
+.ftagline{font-size:13px;color:rgba(255,255,255,.28);margin-top:6px;max-width:210px;line-height:1.65}
+.flinks h4{font-size:11px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.22);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+.flinks ul{list-style:none}
+.flinks li{margin-bottom:8px}
+.flinks a{font-size:13.5px;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:rgba(255,255,255,.7)}
+.fb{border-top:1px solid rgba(255,255,255,.07);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.fcopy{font-size:12px;color:rgba(255,255,255,.18);font-family:'DM Mono',monospace}
+.fleg{display:flex;gap:18px}
+.fleg a{font-size:12px;color:rgba(255,255,255,.18);text-decoration:none;transition:color .2s;font-family:'DM Mono',monospace}
+.fleg a:hover{color:rgba(255,255,255,.45)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:0 20px}
+  .navl{display:none}
+  .hbg{display:flex}
+  .hero{flex-direction:column;padding:96px 24px 72px;gap:48px}
+  .hero-r{width:100%;max-width:280px;margin:0 auto}
+  .sec,.why-inner{padding:72px 24px}
+  .why-wrap .why-inner{padding:72px 24px}
+  .why-cards{grid-template-columns:1fr}
+  .hrow{grid-template-columns:1fr;gap:40px;padding:60px 0}
+  .hrow.flip{direction:ltr}
+  .proof-sec{padding:56px 24px}
+  .cta-sec{padding:72px 24px}
+  footer{padding:44px 24px 30px}
+  .ft{flex-direction:column;gap:32px}
+  .hero-proof{gap:0}
+  .hproof{padding:0 18px}
+  .why-head{margin-bottom:40px}
+}
+@media(max-width:560px){
+  .hero-proof{flex-direction:column;gap:0}
+  .hproof{border-right:none;border-bottom:1px solid var(--border);padding:14px 0!important}
+  .hproof:last-child{border-bottom:none}
+  .hero-btns{flex-direction:column;align-items:flex-start}
+  .proof-in{flex-direction:column;gap:24px}
+  .quote-mark{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="logo"><span class="logo-pip"></span><span class="logo-rx">Rx</span>Bot</a>
+  <ul class="navl">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#cta" class="nav-btn">Get started</a></li>
+  </ul>
+  <div class="hbg" id="hbg" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob" id="mob">
+  <a href="#features" onclick="closeMob()">Features</a>
+  <a href="#how" onclick="closeMob()">How it works</a>
+  <a href="#cta" class="mob-btn" onclick="closeMob()">Get started</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-l">
+    <div class="hero-badge"><span class="hero-badge-dot"></span> Made for Indian doctors · WhatsApp-first</div>
+    <h1>Your patients deserve a <span class="italic">better</span> prescription experience</h1>
+    <p class="hero-desc">
+      <strong>Photo your handwritten prescription.</strong> Patient receives it on WhatsApp in seconds — clean, readable, with a professional PDF attached. Auto follow-ups handle themselves.
+    </p>
+    <div class="hero-btns">
+      <a href="#how" class="btn btn-solid">
+        See it in action
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#features" class="btn btn-line">Explore features</a>
+    </div>
+    <div class="hero-proof">
+      <div class="hproof"><div class="hproof-val">20s</div><div class="hproof-lbl">From photo<br>to patient</div></div>
+      <div class="hproof"><div class="hproof-val">0</div><div class="hproof-lbl">Apps to<br>install</div></div>
+      <div class="hproof"><div class="hproof-val">100%</div><div class="hproof-lbl">Works on<br>WhatsApp</div></div>
+    </div>
+  </div>
+
+  <div class="hero-r">
+    <div class="hphone">
+      <div class="hnotch"></div>
+      <div class="hscreen">
+        <div class="wa-hdr">
+          <div class="wa-av">RC</div>
+          <div><div class="wa-n">RxBot Clinic</div><div class="wa-s">prescription assistant</div></div>
+        </div>
+        <div class="wa-b" style="min-height:310px">
+          <div class="bb s hb">📷 [handwritten prescription photo]<div class="btime">09:14 AM ✓✓</div></div>
+          <div class="bb r hb">
+            ✅ Prescription read
+            <div class="mchip"><div class="mn">Azithromycin 500mg</div><div class="md">☀️ Morning · 1 tablet · 3 din</div></div>
+            <div class="mchip"><div class="mn">Montelukast 10mg</div><div class="md">🌙 Night · 🛌 bedtime</div></div>
+            <div class="wb-row"><div class="wb g">✓ Send to patient</div></div>
+            <div class="btime">09:14 AM</div>
+          </div>
+          <div class="bb s hb">✓ Send to patient<div class="btime">09:15 AM ✓✓</div></div>
+          <div class="bb r hb">
+            ✅ Bhej diya!<br>
+            <span style="font-size:10.5px">Rahul Verma · 9823456710</span><br>
+            <span style="font-size:9.5px;color:#aaa">Day 2 + Day 5 follow-up scheduled</span>
+            <div class="btime">09:15 AM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY RXBOT (Features) -->
+<div class="why-wrap" id="features">
+  <div class="why-inner">
+    <div class="why-head">
+      <div>
+        <div class="stag rv">Why doctors love RxBot</div>
+        <h2 class="rv d1" style="color:#fff">Built for the way<br>Indian doctors actually work</h2>
+      </div>
+      <p class="sdesc rv d2">No apps to install. No new workflows to learn. Works entirely inside WhatsApp — the app you already use every day.</p>
+    </div>
+    <div class="why-cards">
+      <div class="why-card rv"><div class="why-icon">📷</div><div class="why-t">Photo → Digital Rx in seconds</div><div class="why-d">Write on paper as always. Photo it. Claude AI reads the handwriting and extracts every medicine, dose, and timing — in under 5 seconds.</div></div>
+      <div class="why-card rv d1"><div class="why-icon">💊</div><div class="why-t">Patients understand their Rx</div><div class="why-d">☀️🌤️🌙🍽️ emoji format makes dosage impossible to misread. Works for low-literacy patients. Delivered in Hinglish they understand.</div></div>
+      <div class="why-card rv d2"><div class="why-icon">📋</div><div class="why-t">Clinic-branded PDF included</div><div class="why-d">Every prescription includes a professional PDF with your name, clinic, and NMC number. Valid at any pharmacy. Shareable with specialists.</div></div>
+      <div class="why-card rv"><div class="why-icon">🔔</div><div class="why-t">Follow-ups happen automatically</div><div class="why-d">Day 2 and Day 5 check-in messages go to patients automatically. You're only alerted when a patient reports a problem — nothing else to do.</div></div>
+      <div class="why-card rv d1"><div class="why-icon">🔍</div><div class="why-t">Full patient history at your fingertips</div><div class="why-d">Type a patient's number and see their last 3 visits instantly. One tap to repeat the same prescription. No paper files, no searching.</div></div>
+      <div class="why-card rv d2"><div class="why-icon">🔒</div><div class="why-t">Secure and DPDP compliant</div><div class="why-d">All patient data stored securely on Indian servers. Compliant with India's Digital Personal Data Protection Act 2023. Original Rx archived at your clinic.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="sec" id="how">
+  <div class="stag rv">How it works</div>
+  <h2 class="rv d1">From handwritten to<br>digital in four steps</h2>
+  <p class="sdesc rv d2">No training needed. If you can send a WhatsApp message, you can use RxBot.</p>
+
+  <div class="how-grid">
+
+    <!-- STEP 1 -->
+    <div class="hrow rv">
+      <div>
+        <div class="sn">01</div>
+        <div class="st">Photo the prescription</div>
+        <div class="sd">Write your prescription on paper as always. Then take a photo and send it to your clinic's RxBot number on WhatsApp. That one extra step is all it takes — and it takes less than 5 seconds.</div>
+        <div class="sbadge">⚡ No workflow change</div>
+      </div>
+      <div class="ph-wrap">
+        <div>
+          <div class="ph-lbl">Doctor's WhatsApp</div>
+          <div class="phone">
+            <div class="pnotch"></div>
+            <div class="pscreen">
+              <div class="mini-hdr"><div class="mav">RB</div><div><div class="mn2">RxBot</div><div class="ms">online</div></div></div>
+              <div class="pb" style="min-height:195px">
+                <div class="mb r" style="font-size:10.5px">
+                  Welcome! 🙏 Kya karna hai?
+                  <div class="mwbr" style="margin-top:5px">
+                    <div class="mwb b" style="font-size:9.5px">📷 New prescription</div>
+                    <div class="mwb b" style="font-size:9.5px">🔍 Patient history</div>
+                    <div class="mwb b" style="font-size:9.5px">📊 My stats</div>
+                  </div>
+                  <div class="mtime">09:10 AM</div>
+                </div>
+                <div class="mb s" style="font-size:10.5px">
+                  <div style="background:rgba(0,0,0,.08);border-radius:5px;padding:9px;text-align:center">
+                    <div style="font-size:22px;margin-bottom:3px">📄</div>
+                    <div style="font-size:8.5px;color:#555;font-family:'DM Mono',monospace">prescription.jpg · 1.2MB</div>
+                  </div>
+                  <div class="mtime">09:14 AM ✓✓</div>
+                </div>
+                <div class="mb r" style="font-size:10px">📷 Photo mili! Reading... <span style="color:#aaa">(5 sec)</span><div class="mtime">09:14 AM</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="hrow flip rv">
+      <div>
+        <div class="sn">02</div>
+        <div class="st">AI reads the handwriting</div>
+        <div class="sd">Claude Vision analyses the photo and extracts every medicine, dosage, and timing. Each item is confidence-scored. Green means confident. Amber shows you two options to tap. You're never left guessing.</div>
+        <div class="sbadge">🧠 Reads Indian shorthand: bd, tds, af, hs</div>
+      </div>
+      <div class="ph-wrap">
+        <div>
+          <div class="ph-lbl">Confidence-scored result</div>
+          <div class="phone">
+            <div class="pnotch"></div>
+            <div class="pscreen">
+              <div class="mini-hdr"><div class="mav">RB</div><div><div class="mn2">RxBot</div></div></div>
+              <div class="pb" style="min-height:235px">
+                <div class="mb r" style="font-size:10px">
+                  <strong>Prescription read ✓</strong>
+                  <div class="crow2 ok"><span class="ci2">✅</span><div class="ct2">Azithromycin 500mg<span class="cd2">1-0-0 · before food · 3d</span></div></div>
+                  <div class="crow2 ok"><span class="ci2">✅</span><div class="ct2">Montelukast 10mg<span class="cd2">0-0-1 · bedtime · 5d</span></div></div>
+                  <div class="crow2 am"><span class="ci2">⚠️</span><div class="ct2" style="color:#c47a10">Not sure — line 3<span class="cd2" style="color:#a07030">Metfor or Metoprolol?</span></div></div>
+                  <div class="mwbr" style="margin-top:5px">
+                    <div class="mwb b">Metformin 500mg</div>
+                    <div class="mwb b">Metoprolol 25mg</div>
+                    <div class="mwb b">🎤 Say it instead</div>
+                  </div>
+                  <div class="mtime">09:14 AM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="hrow rv">
+      <div>
+        <div class="sn">03</div>
+        <div class="st">Tap to confirm and send</div>
+        <div class="sd">Tap the correct medicine from the options shown — no typing needed. Enter the patient's phone number, tap send. Done. Total time from photo to patient receiving the prescription: under 30 seconds.</div>
+        <div class="sbadge">👆 One tap · No typing needed</div>
+      </div>
+      <div class="ph-wrap">
+        <div>
+          <div class="ph-lbl">Confirm and send</div>
+          <div class="phone">
+            <div class="pnotch"></div>
+            <div class="pscreen">
+              <div class="mini-hdr"><div class="mav">RB</div><div><div class="mn2">RxBot</div></div></div>
+              <div class="pb" style="min-height:235px">
+                <div class="mb s" style="font-size:10px">Metformin 500mg<div class="mtime">09:15 AM ✓✓</div></div>
+                <div class="mb r" style="font-size:10px">
+                  <strong>✅ All confirmed</strong>
+                  <div class="crow2 ok" style="margin-top:2px"><span class="ci2">✅</span><div class="ct2">Azithromycin 500mg<span class="cd2">1-0-0 · before food</span></div></div>
+                  <div class="crow2 ok"><span class="ci2">✅</span><div class="ct2">Montelukast 10mg<span class="cd2">0-0-1 · bedtime</span></div></div>
+                  <div class="crow2 ok"><span class="ci2">✅</span><div class="ct2">Metformin 500mg<span class="cd2">1-0-1 · after food</span></div></div>
+                  <div class="mwbr" style="margin-top:4px"><div class="mwb g" style="font-size:9.5px">✓ Send to patient</div></div>
+                  <div class="mtime">09:15 AM</div>
+                </div>
+                <div class="mb r" style="font-size:10px">✅ Bhej diya!<br><span style="font-size:9px;color:#aaa">Follow-up Day 2 + Day 5 scheduled</span><div class="mtime">09:15 AM</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="hrow flip rv">
+      <div>
+        <div class="sn">04</div>
+        <div class="st">Patient receives everything — instantly</div>
+        <div class="sd">Patient gets a visual emoji prescription and a clinic-branded PDF on their WhatsApp — no app download needed. On Day 2 and Day 5, automated check-in messages go out automatically. You only get notified if something is wrong.</div>
+        <div class="sbadge">🔔 Auto Day 2 + Day 5 follow-up</div>
+      </div>
+      <div class="ph-wrap">
+        <div>
+          <div class="ph-lbl">Patient's WhatsApp</div>
+          <div class="phone">
+            <div class="pnotch"></div>
+            <div class="pscreen">
+              <div class="mini-hdr" style="background:#128c4e">
+                <div class="mav" style="background:#075e54">RC</div>
+                <div><div class="mn2">Rahul Clinic</div><div class="ms">prescription</div></div>
+              </div>
+              <div class="pb" style="min-height:275px">
+                <div class="mb r" style="font-size:10px">
+                  <strong>Namaste Rahul ji 🙏</strong><br>
+                  <span style="color:#999;font-size:9px">Dr. Sharma · 25 Mar 2026</span>
+                  <div class="mchip2" style="margin-top:4px"><div class="mn3">1. Azithromycin 500mg</div><div class="md2">☀️ Morning · 💧 before food · 3 din</div></div>
+                  <div class="mchip2"><div class="mn3">2. Montelukast 10mg</div><div class="md2">🌙 Night · 🛌 bedtime · 5 din</div></div>
+                  <div class="mchip2"><div class="mn3">3. Metformin 500mg</div><div class="md2">☀️ Morning · 🌙 Night · 🍽️ after food</div></div>
+                  <span style="font-size:10px">💊 Poori dawai zaroor lein!</span>
+                  <div class="mtime">09:15 AM</div>
+                </div>
+                <div class="mb r" style="font-size:10px">
+                  <div style="display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.06);border-radius:5px;padding:5px 7px">
+                    <div style="width:22px;height:22px;background:#c0392b;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7.5px;color:#fff;font-weight:700;flex-shrink:0">PDF</div>
+                    <div><div style="font-weight:600;font-size:9.5px">Prescription_Rahul.pdf</div><div style="font-size:8.5px;color:#999">Rahul Clinic · 3 medicines</div></div>
+                  </div>
+                  <div class="mtime">09:15 AM</div>
+                </div>
+                <div class="cdiv">— Day 2 auto follow-up —</div>
+                <div class="mb r" style="font-size:9.5px">
+                  Namaste Rahul ji! 2 din ki dawai ho gayi. Kaisa feel ho raha hai?<br>
+                  Reply: <strong>THEEK</strong> ya <strong>NAHI THEEK</strong>
+                  <div class="mtime">10:00 AM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROOF -->
+<div class="proof-sec">
+  <div class="proof-in">
+    <div class="quote-mark rv">"</div>
+    <div class="qtext rv d1">Pehle har patient ke baad prescription likhna, fir explain karna — double kaam. Ab ek photo se sab ho jaata hai aur patient ko WhatsApp pe bhi mil jaati hai. Bahut useful hai.</div>
+    <div class="qattr rv d2">
+      <div class="qstars">★★★★★</div>
+      <div class="qname">Dr. Priya Menon</div>
+      <div class="qrole">General Physician, Kochi</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-sec" id="cta">
+  <h2 class="rv" style="color:#fff">Start sending digital prescriptions today</h2>
+  <p class="rv d1">30 days free. No credit card. Works on any phone with WhatsApp. Takes 10 minutes to set up.</p>
+  <a href="https://wa.me/" class="cta-wa-btn rv d2">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.087.535 4.05 1.474 5.757L.057 23.321a.75.75 0 00.922.922l5.564-1.417A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.846 0-3.575-.47-5.079-1.296l-.363-.211-3.742.953.969-3.742-.211-.363A9.99 9.99 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    Get started on WhatsApp
+  </a>
+  <div class="cta-note rv d3">30 days free &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; Setup in 10 minutes</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi">
+    <div class="ft">
+      <div>
+        <div class="fbrand"><div class="fbrand-dot"></div>RxBot</div>
+        <div class="ftagline">Digital prescriptions via WhatsApp for Indian doctors.</div>
+      </div>
+      <div class="flinks">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how">How it works</a></li>
+        </ul>
+      </div>
+      <div class="flinks">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">DPDP Act 2023</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fb">
+      <div class="fcopy">© 2026 RxBot &nbsp;·&nbsp; Made with ♥ in India 🇮🇳</div>
+      <div class="fleg">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('up',scrollY>24);
+},{ passive:true });
+
+// Mobile menu
+function toggleNav(){
+  const m=document.getElementById('mob'),h=document.getElementById('hbg');
+  const o=m.classList.toggle('on');
+  h.children[0].style.transform=o?'rotate(45deg) translate(5px,5px)':'';
+  h.children[1].style.opacity=o?0:1;
+  h.children[2].style.transform=o?'rotate(-45deg) translate(5px,-5px)':'';
+}
+function closeMob(){
+  document.getElementById('mob').classList.remove('on');
+  const h=document.getElementById('hbg');
+  h.children[0].style.transform='';h.children[1].style.opacity=1;h.children[2].style.transform='';
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('nav')&&!e.target.closest('#mob'))closeMob();
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+},{threshold:.1,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
