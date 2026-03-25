@@ -34,11 +34,18 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
       color: var(--ink);
       line-height: 1.6;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     /* NAV (simplified) */
@@ -302,8 +309,13 @@
     @media(max-width:900px) {
       nav {
         height: 60px;
-        padding: 0 20px;
+        padding: 0 16px;
         border-radius: 20px;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        transform: none;
       }
 
       .ham {
@@ -318,8 +330,13 @@
         font-size: 36px;
       }
 
+      nav.up {
+        top: 8px;
+        height: 56px;
+      }
+
       .doc-sec {
-        padding-top: 120px;
+        padding-top: 96px;
       }
     }
   </style>
