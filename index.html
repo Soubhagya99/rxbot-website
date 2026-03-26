@@ -458,8 +458,13 @@
     }
 
     @keyframes text-glow {
-      0% { filter: drop-shadow(0 0 8px rgba(37, 99, 235, .2)) }
-      100% { filter: drop-shadow(0 0 16px rgba(34, 197, 94, .4)) }
+      0% {
+        filter: drop-shadow(0 0 8px rgba(37, 99, 235, .2))
+      }
+
+      100% {
+        filter: drop-shadow(0 0 16px rgba(34, 197, 94, .4))
+      }
     }
 
     .hero-p {
@@ -507,9 +512,17 @@
     }
 
     @keyframes btn-grad-anim {
-      0% { background-position: 0% 50% }
-      50% { background-position: 100% 50% }
-      100% { background-position: 0% 50% }
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
     }
 
     .btn-grad:hover {
@@ -521,7 +534,7 @@
       color: var(--ink2);
       border: 1.5px solid var(--border);
       background: var(--white);
-      box-shadow: 0 4px 12px rgba(0,0,0,.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .02);
     }
 
     .btn-out:hover {
@@ -892,8 +905,15 @@
     }
 
     @keyframes pulse-glow {
-      0% { transform: scale(1); opacity: 0.8; }
-      100% { transform: scale(1.1); opacity: 1; }
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
     }
 
     .how-in {
@@ -1247,78 +1267,273 @@
       flex-shrink: 0
     }
 
-    .quote-sec {
-      background: linear-gradient(-45deg, rgba(26, 58, 175, .05), rgba(34, 197, 94, .05), rgba(26, 58, 175, .08));
-      background-size: 400% 400%;
-      animation: quote-bg 15s ease infinite;
-      padding: 64px 40px;
-      border-top: 1px solid rgba(37, 99, 235, .1);
-      border-bottom: 1px solid rgba(37, 99, 235, .1)
+    /* ── TESTIMONIALS ── */
+    .testimonials-sec {
+      padding: 128px 40px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
     }
 
-    @keyframes quote-bg {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .quote-in {
-      max-width: 900px;
+    .t-inner {
+      max-width: 1120px;
       margin: 0 auto;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 88px;
+      align-items: center;
+    }
+
+    .t-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .t-left h2 {
+      margin-bottom: 16px;
+    }
+
+    .t-desc {
+      font-size: 15.5px;
+      color: var(--ink2);
+      line-height: 1.72;
+    }
+
+    /* ── Card track & stacking ── */
+    .tcard-wrap {
+      position: relative;
+    }
+
+    .tcard-track {
+      display: grid;
+      grid-template-rows: auto;
+      grid-template-columns: 1fr;
+    }
+
+    .tcard {
+      grid-row: 1 / 2;
+      grid-column: 1 / 2;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px 32px 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .04), 0 0 0 1px rgba(0, 0, 0, .02);
+      opacity: 0;
+      clip-path: inset(0 0 calc(100% - 3px) 0 round 20px);
+      transition: opacity .9s ease,
+        clip-path 1.1s cubic-bezier(.22, 1, .36, 1),
+        border-color .8s ease,
+        box-shadow .8s ease;
+      pointer-events: none;
+      position: relative;
+      will-change: clip-path, opacity;
+    }
+
+    .tcard > * {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity .85s ease,
+        transform 1.05s cubic-bezier(.22, 1, .36, 1);
+      will-change: transform, opacity;
+    }
+
+    .tcard::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 20px 20px 0 0;
+      background: var(--grad);
+      opacity: 1;
+      z-index: 10;
+    }
+
+    /* Outgoing: folds back up into the top line */
+    .tcard.exiting {
+      opacity: 0;
+      clip-path: inset(0 0 calc(100% - 3px) 0 round 20px);
+      pointer-events: none;
+      transition: opacity .65s ease,
+        clip-path .85s cubic-bezier(.4, 0, .2, 1);
+      animation: none !important;
+    }
+
+    .tcard.exiting > * {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity .55s ease,
+        transform .75s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    /* Active: unrolls out of the top bar */
+    .tcard.active {
+      opacity: 1;
+      clip-path: inset(0 0 0 0 round 20px);
+      pointer-events: auto;
+    }
+
+    .tcard.active > * {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity .85s ease,
+        transform 1.05s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .tcard.active::before {
+      opacity: 1;
+    }
+
+    /* Float only starts AFTER the enter transition settles */
+    .tcard.active.floating {
+      animation: tcard-float 6s ease-in-out infinite;
+    }
+
+    @keyframes tcard-float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .04), 0 0 0 1px rgba(0, 0, 0, .02);
+        border-color: var(--border);
+      }
+
+      50% {
+        transform: translateY(-9px);
+        box-shadow: 0 18px 44px -8px rgba(10, 26, 110, .11), 0 0 0 4px rgba(37, 99, 235, .05);
+        border-color: rgba(37, 99, 235, .22);
+      }
+    }
+
+    /* ── Card internals ── */
+    .tcard-top {
       display: flex;
       align-items: center;
-      gap: 48px;
-      flex-wrap: wrap
+      gap: 13px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .qm {
-      font-family: 'Fraunces', serif;
-      font-size: 80px;
-      line-height: 1;
+    .tav {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #fff;
       flex-shrink: 0;
-      font-style: italic;
+      letter-spacing: .05em;
+      box-shadow: 0 3px 10px rgba(26, 58, 175, .22);
+    }
+
+    .tav.av-2 {
+      background: linear-gradient(135deg, #1a3aaf 0%, #075e54 100%);
+      box-shadow: 0 3px 10px rgba(7, 94, 84, .22);
+    }
+
+    .tav.av-3 {
+      background: linear-gradient(135deg, #15803d 0%, #1a3aaf 100%);
+      box-shadow: 0 3px 10px rgba(21, 128, 61, .22);
+    }
+
+    .tmeta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tname {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .trole {
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    .tstar {
+      font-size: 11.5px;
+      letter-spacing: 2px;
       background: var(--grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      opacity: .25;
-      margin-top: -20px;
-      padding: 0 10px;
-      margin-left: -10px;
+      flex-shrink: 0;
     }
 
-    .qt {
+    .tquote {
       font-family: 'Fraunces', serif;
-      font-size: clamp(18px, 2.5vw, 26px);
-      line-height: 1.5;
+      font-size: clamp(15px, 1.55vw, 17px);
+      line-height: 1.78;
       color: var(--ink);
       font-style: italic;
-      flex: 1
+      margin-bottom: 20px;
     }
 
-    .qa {
-      flex-shrink: 0;
-      min-width: 150px
-    }
-
-    .qs {
-      font-size: 14px;
-      letter-spacing: 2px;
-      margin-bottom: 5px;
+    .tqm {
+      font-size: 44px;
+      line-height: 0;
+      vertical-align: -.33em;
+      font-style: normal;
       background: var(--grad);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent
+      -webkit-text-fill-color: transparent;
+      opacity: .18;
+      margin-right: 2px;
+      display: inline-block;
     }
 
-    .qn {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ink)
+    .tcard-foot {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
-    .qr {
-      font-size: 13px;
-      color: var(--ink3);
-      margin-top: 2px
+    .tchip {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 10px;
+      background: var(--grad-soft);
+      border: 1px solid rgba(37, 99, 235, .12);
+      border-radius: 20px;
+      color: var(--b2);
+      letter-spacing: .03em;
+    }
+
+    /* ── Dots (in tcard-wrap, below track) ── */
+    .tdots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .tdot {
+      height: 6px;
+      width: 6px;
+      border-radius: 3px;
+      border: none;
+      background: var(--border);
+      cursor: pointer;
+      transition: width .32s cubic-bezier(.4, 0, .2, 1),
+        background .32s ease;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .tdot.active {
+      width: 20px;
+      background: linear-gradient(90deg, var(--b2), var(--b3));
     }
 
     /* ── CTA ── */
@@ -1396,7 +1611,7 @@
       border-top: 1px solid rgba(255, 255, 255, 0.03);
       position: relative;
     }
-    
+
     footer::before {
       content: '';
       position: absolute;
@@ -1633,8 +1848,31 @@
         direction: ltr
       }
 
-      .quote-sec {
-        padding: 48px 20px
+      .testimonials-sec {
+        padding: 72px 24px
+      }
+
+      .t-inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        align-items: start
+      }
+
+      .t-left h2 {
+        font-size: 30px
+      }
+
+      .t-desc {
+        font-size: 15px;
+        margin-bottom: 0
+      }
+
+      .tcard {
+        padding: 26px 24px 20px
+      }
+
+      .tdots {
+        margin-top: 20px
       }
 
       .cta-sec {
@@ -1723,13 +1961,43 @@
         padding: 14px
       }
 
-      .quote-in {
-        flex-direction: column;
-        gap: 16px
+      .testimonials-sec {
+        padding: 56px 16px
       }
 
-      .qm {
+      .t-inner {
+        gap: 28px
+      }
+
+      .t-left h2 {
+        font-size: 26px
+      }
+
+      .t-desc {
+        font-size: 14px
+      }
+
+      .tcard {
+        padding: 20px 16px 16px
+      }
+
+      .tcard-top {
+        padding-bottom: 16px;
+        margin-bottom: 16px
+      }
+
+      .tquote {
+        font-size: 15px;
+        margin-bottom: 16px
+      }
+
+      .tstar {
         display: none
+      }
+
+      /* no float on small screens — scroll causes jank */
+      .tcard.active.floating {
+        animation: none
       }
 
       .cta-wa {
@@ -1823,8 +2091,13 @@
     }
 
     @keyframes grid-move {
-      0% { background-position: 0 0; }
-      100% { background-position: 32px 32px; }
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: 32px 32px;
+      }
     }
 
     .hero-l,
@@ -1981,25 +2254,6 @@
     /* Stat counter text */
     .stat-v {
       display: inline-block;
-    }
-
-    /* Quote section star shimmer */
-    @keyframes star-pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        letter-spacing: 2px;
-      }
-
-      50% {
-        opacity: .7;
-        letter-spacing: 4px;
-      }
-    }
-
-    .qs {
-      animation: star-pulse 3s ease-in-out infinite;
     }
 
     /* Smooth hover on footer links */
@@ -2402,19 +2656,89 @@
     </div>
   </section>
 
-  <!-- QUOTE -->
-  <div class="quote-sec">
-    <div class="quote-in">
-      <div class="qm rv">“</div>
-      <div class="qt rv d1">Pehle har patient ke baad prescription likhna, fir explain karna — double kaam. Ab ek photo
-        se sab ho jaata hai aur patient ko WhatsApp pe bhi mil jaati hai. Bahut useful hai.</div>
-      <div class="qa rv d2">
-        <div class="qs">★★★★★</div>
-        <div class="qn">Dr. Priya Menon</div>
-        <div class="qr">General Physician, Delhi</div>
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-sec" id="reviews">
+    <div class="t-inner">
+
+      <!-- Left: heading -->
+      <div class="t-left">
+        <div class="stag rv">What doctors say</div>
+        <h2 class="rv d1">Trusted by<br>doctors across<br>India</h2>
+        <p class="t-desc rv d2">Real feedback from physicians who use RxBot every day in their clinics.</p>
       </div>
+
+      <!-- Right: card carousel + dots -->
+      <div class="tcard-wrap rv d2">
+        <div class="tcard-track">
+
+          <!-- Card 1 -->
+          <div class="tcard active">
+            <div class="tcard-top">
+              <div class="tav">AS</div>
+              <div class="tmeta">
+                <div class="tname">Dr. Anjali Sharma</div>
+                <div class="trole">Pediatrician &middot; Pune</div>
+              </div>
+              <div class="tstar">★★★★★</div>
+            </div>
+            <div class="tquote"><span class="tqm">"</span>I see 60+ kids daily. Parents used to call back because they
+              couldn't read my handwriting — now that's gone completely. The emoji format is brilliant. Even
+              low-literacy parents instantly get ☀️ morning and 🌙 night without me having to explain anything.</div>
+            <div class="tcard-foot">
+              <div class="tchip">📷 Photo to Rx</div>
+              <div class="tchip">👨‍👩‍👧 Paediatric clinic</div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="tcard">
+            <div class="tcard-top">
+              <div class="tav av-2">KR</div>
+              <div class="tmeta">
+                <div class="tname">Dr. Karthik Reddy</div>
+                <div class="trole">General Physician &middot; Hyderabad</div>
+              </div>
+              <div class="tstar">★★★★★</div>
+            </div>
+            <div class="tquote"><span class="tqm">"</span>Was honestly skeptical — thought it would slow me down. But
+              it's literally 5 extra seconds after writing the prescription. The Day 2 and Day 5 follow-ups are what
+              sold me. I know which patients need attention without calling every single one.</div>
+            <div class="tcard-foot">
+              <div class="tchip">🔔 Auto follow-ups</div>
+              <div class="tchip">⚡ 5-second workflow</div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="tcard">
+            <div class="tcard-top">
+              <div class="tav av-3">PT</div>
+              <div class="tmeta">
+                <div class="tname">Dr. Priyanka Tripathy</div>
+                <div class="trole">Family Medicine &middot; Bhubaneswar</div>
+              </div>
+              <div class="tstar">★★★★★</div>
+            </div>
+            <div class="tquote"><span class="tqm">"</span>Patients used to call back asking about timing and dosage. Now
+              it's all on WhatsApp with a PDF backup they can show at any pharmacy. My older patients love it most — no
+              app to download, nothing new to learn. Just WhatsApp, which they already use.</div>
+            <div class="tcard-foot">
+              <div class="tchip">📲 WhatsApp native</div>
+              <div class="tchip">📋 PDF at every pharmacy</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tdots">
+          <button class="tdot active" aria-label="Review 1"></button>
+          <button class="tdot" aria-label="Review 2"></button>
+          <button class="tdot" aria-label="Review 3"></button>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </section>
 
   <!-- CTA -->
   <div class="cta-sec" id="cta">
@@ -2578,6 +2902,72 @@
         });
       }, { threshold: .5 }).observe(statsEl);
     }
+
+    // Testimonials carousel
+    (function () {
+      const cards = document.querySelectorAll('.tcard');
+      const dots = document.querySelectorAll('.tdot');
+      if (!cards.length) return;
+      let current = 0;
+      let timer;
+      let floatTimeout;
+
+      // Adds .floating after the enter transition settles — keeps float
+      // animation completely separate from the enter transition so they
+      // never fight over the transform property.
+      function scheduleFloat(card) {
+        clearTimeout(floatTimeout);
+        floatTimeout = setTimeout(function () {
+          if (card.classList.contains('active')) card.classList.add('floating');
+        }, 750);
+      }
+
+      function goToCard(i) {
+        var prev = cards[current];
+        var next = cards[(i + cards.length) % cards.length];
+        if (prev === next) return;
+
+        // Outgoing: strip float, mark as exiting
+        prev.classList.remove('active', 'floating');
+        prev.classList.add('exiting');
+        // Clean up exiting class after its short transition
+        setTimeout(function () { prev.classList.remove('exiting'); }, 550);
+
+        dots[current].classList.remove('active');
+        current = (i + cards.length) % cards.length;
+
+        // Incoming: enter from below
+        cards[current].classList.add('active');
+        dots[current].classList.add('active');
+        scheduleFloat(cards[current]);
+      }
+
+      function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(function () { goToCard(current + 1); }, 5500);
+      }
+
+      dots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () {
+          if (i === current) return;
+          clearInterval(timer);
+          goToCard(i);
+          startTimer();
+        });
+      });
+
+      var wrap = document.querySelector('.tcard-wrap');
+      if (wrap) {
+        wrap.addEventListener('mouseenter', function () { clearInterval(timer); });
+        wrap.addEventListener('mouseleave', startTimer);
+        // Touch: resume after swipe-like interaction
+        wrap.addEventListener('touchend', function () { clearInterval(timer); startTimer(); });
+      }
+
+      // Kick off float on the initial card
+      scheduleFloat(cards[0]);
+      startTimer();
+    })();
   </script>
 </body>
 
