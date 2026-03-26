@@ -1321,20 +1321,20 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, .04), 0 0 0 1px rgba(0, 0, 0, .02);
       opacity: 0;
       clip-path: inset(0 0 calc(100% - 3px) 0 round 20px);
-      transition: opacity .9s ease,
-        clip-path 1.1s cubic-bezier(.22, 1, .36, 1),
-        border-color .8s ease,
-        box-shadow .8s ease;
+      transition: opacity .75s ease,
+        clip-path .85s cubic-bezier(.22, 1, .36, 1),
+        border-color .6s ease,
+        box-shadow .6s ease;
       pointer-events: none;
       position: relative;
       will-change: clip-path, opacity;
     }
 
-    .tcard > * {
+    .tcard>* {
       opacity: 0;
       transform: translateY(-10px);
-      transition: opacity .85s ease,
-        transform 1.05s cubic-bezier(.22, 1, .36, 1);
+      transition: opacity .7s ease,
+        transform .85s cubic-bezier(.22, 1, .36, 1);
       will-change: transform, opacity;
     }
 
@@ -1356,16 +1356,16 @@
       opacity: 0;
       clip-path: inset(0 0 calc(100% - 3px) 0 round 20px);
       pointer-events: none;
-      transition: opacity .65s ease,
-        clip-path .85s cubic-bezier(.4, 0, .2, 1);
+      transition: opacity .45s ease,
+        clip-path .7s cubic-bezier(.4, 0, .2, 1);
       animation: none !important;
     }
 
-    .tcard.exiting > * {
+    .tcard.exiting>* {
       opacity: 0;
       transform: translateY(-10px);
-      transition: opacity .55s ease,
-        transform .75s cubic-bezier(.4, 0, .2, 1);
+      transition: opacity .35s ease,
+        transform .65s cubic-bezier(.4, 0, .2, 1);
     }
 
     /* Active: unrolls out of the top bar */
@@ -1375,11 +1375,11 @@
       pointer-events: auto;
     }
 
-    .tcard.active > * {
+    .tcard.active>* {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity .85s ease,
-        transform 1.05s cubic-bezier(.22, 1, .36, 1);
+      transition: opacity .7s ease,
+        transform .85s cubic-bezier(.22, 1, .36, 1);
     }
 
     .tcard.active::before {
@@ -2664,7 +2664,7 @@
       <div class="t-left">
         <div class="stag rv">What doctors say</div>
         <h2 class="rv d1">Trusted by<br>doctors across<br>India</h2>
-        <p class="t-desc rv d2">Real feedback from physicians who use RxBot every day in their clinics.</p>
+        <p class="t-desc rv d2">Join hundreds of doctors who have simplified their practice with RxBot.</p>
       </div>
 
       <!-- Right: card carousel + dots -->
@@ -2919,7 +2919,7 @@
         clearTimeout(floatTimeout);
         floatTimeout = setTimeout(function () {
           if (card.classList.contains('active')) card.classList.add('floating');
-        }, 750);
+        }, 900);
       }
 
       function goToCard(i) {
@@ -2931,7 +2931,7 @@
         prev.classList.remove('active', 'floating');
         prev.classList.add('exiting');
         // Clean up exiting class after its short transition
-        setTimeout(function () { prev.classList.remove('exiting'); }, 550);
+        setTimeout(function () { prev.classList.remove('exiting'); }, 750);
 
         dots[current].classList.remove('active');
         current = (i + cards.length) % cards.length;
@@ -2944,7 +2944,7 @@
 
       function startTimer() {
         clearInterval(timer);
-        timer = setInterval(function () { goToCard(current + 1); }, 5500);
+        timer = setInterval(function () { goToCard(current + 1); }, 6500);
       }
 
       dots.forEach(function (dot, i) {
