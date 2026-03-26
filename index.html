@@ -75,8 +75,8 @@
     /* REVEAL */
     .rv {
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity .6s cubic-bezier(.16, 1, .3, 1), transform .6s cubic-bezier(.16, 1, .3, 1)
+      transform: translateY(30px);
+      transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1)
     }
 
     .rv.in {
@@ -400,7 +400,13 @@
       font-style: italic;
       background: var(--grad);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent
+      -webkit-text-fill-color: transparent;
+      animation: text-glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes text-glow {
+      0% { filter: drop-shadow(0 0 8px rgba(37, 99, 235, .2)) }
+      100% { filter: drop-shadow(0 0 16px rgba(34, 197, 94, .4)) }
     }
 
     .hero-p {
@@ -440,26 +446,36 @@
     }
 
     .btn-grad {
-      background: var(--grad);
+      background: linear-gradient(-45deg, #1a3aaf, #2563eb, #22c55e, #15803d);
+      background-size: 300% 300%;
+      animation: btn-grad-anim 5s ease infinite;
       color: #fff;
       box-shadow: 0 4px 16px rgba(26, 58, 175, .24)
     }
 
+    @keyframes btn-grad-anim {
+      0% { background-position: 0% 50% }
+      50% { background-position: 100% 50% }
+      100% { background-position: 0% 50% }
+    }
+
     .btn-grad:hover {
-      opacity: .9;
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(26, 58, 175, .3)
+      box-shadow: 0 10px 28px rgba(37, 99, 235, .4)
     }
 
     .btn-out {
       color: var(--ink2);
       border: 1.5px solid var(--border);
-      background: var(--white)
+      background: var(--white);
+      box-shadow: 0 4px 12px rgba(0,0,0,.02);
     }
 
     .btn-out:hover {
       border-color: var(--b3);
-      color: var(--b2)
+      color: var(--b2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, .1);
     }
 
     .stats {
@@ -509,7 +525,7 @@
       background: #0f172a;
       border-radius: 36px;
       padding: 12px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, .4), 0 0 0 1px rgba(255, 255, 255, .05);
+      box-shadow: 0 32px 64px rgba(0, 0, 0, .4), 0 0 0 1px rgba(255, 255, 255, .05), 0 0 80px rgba(37, 99, 235, .2);
       position: relative;
       animation: float-phone 8s ease-in-out infinite
     }
@@ -756,9 +772,9 @@
     }
 
     .fc:hover {
-      border-color: rgba(37, 99, 235, .2);
-      box-shadow: 0 12px 32px rgba(10, 26, 110, .07);
-      transform: translateY(-5px) scale(1.01)
+      border-color: rgba(37, 99, 235, .3);
+      box-shadow: 0 14px 40px rgba(10, 26, 110, .08), 0 0 0 4px rgba(37, 99, 235, .05);
+      transform: translateY(-6px) scale(1.01)
     }
 
     .fi {
@@ -803,7 +819,8 @@
       width: 700px;
       height: 700px;
       background: radial-gradient(circle, rgba(37, 99, 235, .1) 0%, transparent 70%);
-      pointer-events: none
+      pointer-events: none;
+      animation: pulse-glow 8s ease-in-out infinite alternate;
     }
 
     .how-wrap::after {
@@ -814,7 +831,13 @@
       width: 600px;
       height: 600px;
       background: radial-gradient(circle, rgba(34, 197, 94, .08) 0%, transparent 70%);
-      pointer-events: none
+      pointer-events: none;
+      animation: pulse-glow 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes pulse-glow {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.1); opacity: 1; }
     }
 
     .how-in {
@@ -1163,12 +1186,19 @@
       flex-shrink: 0
     }
 
-    /* ── QUOTE ── */
     .quote-sec {
-      background: var(--grad-soft);
+      background: linear-gradient(-45deg, rgba(26, 58, 175, .05), rgba(34, 197, 94, .05), rgba(26, 58, 175, .08));
+      background-size: 400% 400%;
+      animation: quote-bg 15s ease infinite;
       padding: 64px 40px;
       border-top: 1px solid rgba(37, 99, 235, .1);
       border-bottom: 1px solid rgba(37, 99, 235, .1)
+    }
+
+    @keyframes quote-bg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .quote-in {
@@ -1657,6 +1687,261 @@
         transform: scale(.98)
       }
     }
+
+    /* ── ENHANCEMENTS ── */
+
+    /* Anchor scroll offset for fixed nav */
+    #features,
+    #how,
+    #cta {
+      scroll-margin-top: 84px;
+    }
+
+    /* Hero page-load entrance */
+    @keyframes hero-up {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .h-a {
+      animation: hero-up .75s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .h-a.a1 {
+      animation-delay: .05s;
+    }
+
+    .h-a.a2 {
+      animation-delay: .18s;
+    }
+
+    .h-a.a3 {
+      animation-delay: .31s;
+    }
+
+    .h-a.a4 {
+      animation-delay: .44s;
+    }
+
+    .h-a.a5 {
+      animation-delay: .57s;
+    }
+
+    /* Hero dot-grid backdrop */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(rgba(37, 99, 235, .12) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 90% 75% at 50% 10%, #000, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 10%, #000, transparent 80%);
+      animation: grid-move 20s linear infinite;
+    }
+
+    @keyframes grid-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 32px 32px; }
+    }
+
+    .hero-l,
+    .hero-r {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Feature card shimmer on hover */
+    .fc {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fc::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--grad-soft);
+      opacity: 0;
+      transition: opacity .5s cubic-bezier(.16, 1, .3, 1);
+      pointer-events: none;
+    }
+
+    .fc:hover::after {
+      opacity: 1;
+    }
+
+    /* Feature icon bounce */
+    .fi {
+      transition: all .5s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .fc:hover .fi {
+      transform: scale(1.2) rotate(-8deg);
+      background: var(--grad);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, .3);
+    }
+
+    /* Extra reveal delays */
+    .rv.d4 {
+      transition-delay: .4s;
+    }
+
+    .rv.d5 {
+      transition-delay: .5s;
+    }
+
+    /* Button shine sweep */
+    .btn-grad {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-grad::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -120%;
+      width: 55%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+      transform: skewX(-15deg);
+      transition: left .55s ease;
+      pointer-events: none;
+    }
+
+    .btn-grad:hover::after {
+      left: 180%;
+    }
+
+    /* CTA button pulse ring */
+    @keyframes cta-ring {
+      0% {
+        box-shadow: 0 6px 24px rgba(37, 197, 94, .3), 0 0 0 0 rgba(37, 211, 102, .45);
+      }
+
+      70% {
+        box-shadow: 0 6px 24px rgba(37, 197, 94, .2), 0 0 0 14px rgba(37, 211, 102, 0);
+      }
+
+      100% {
+        box-shadow: 0 6px 24px rgba(37, 197, 94, .3), 0 0 0 0 rgba(37, 211, 102, 0);
+      }
+    }
+
+    .cta-wa {
+      animation: cta-ring 2.5s ease-out infinite;
+    }
+
+    .cta-wa:hover {
+      animation: none;
+      box-shadow: 0 20px 48px rgba(37, 197, 94, .4) !important;
+    }
+
+    /* Step number slow breathe */
+    @keyframes snum-breathe {
+
+      0%,
+      100% {
+        opacity: .75;
+      }
+
+      50% {
+        opacity: .42;
+      }
+    }
+
+    .snum {
+      animation: snum-breathe 5s ease-in-out infinite;
+    }
+
+    /* Mobile nav: pointer-events gate */
+    .mob-nav {
+      pointer-events: none;
+    }
+
+    .mob-nav.open {
+      pointer-events: auto;
+    }
+
+    /* Glow orb drift */
+    @keyframes glow-drift {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+        filter: blur(50px) opacity(0.8);
+      }
+
+      40% {
+        transform: translate(25px, -20px) scale(1.1);
+        filter: blur(60px) opacity(1);
+      }
+
+      70% {
+        transform: translate(-15px, 15px) scale(.95);
+        filter: blur(45px) opacity(0.7);
+      }
+    }
+
+    .hero .glow {
+      animation: glow-drift 14s ease-in-out infinite;
+    }
+
+    .hero .glow:nth-child(2) {
+      animation-duration: 18s;
+      animation-delay: -5s;
+    }
+
+    /* Stat counter text */
+    .stat-v {
+      display: inline-block;
+    }
+
+    /* Quote section star shimmer */
+    @keyframes star-pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        letter-spacing: 2px;
+      }
+
+      50% {
+        opacity: .7;
+        letter-spacing: 4px;
+      }
+    }
+
+    .qs {
+      animation: star-pulse 3s ease-in-out infinite;
+    }
+
+    /* Smooth hover on footer links */
+    .flinks a {
+      transition: color .2s, padding-left .2s;
+    }
+
+    .flinks a:hover {
+      padding-left: 4px;
+      color: rgba(255, 255, 255, .8) !important;
+    }
+
+    /* Nav CTA active state */
+    .nav-cta:active {
+      transform: scale(.97) !important;
+    }
   </style>
 </head>
 
@@ -1695,22 +1980,24 @@
     <div class="glow"
       style="bottom:10%;right:-5%;background:radial-gradient(circle,rgba(34,197,94,0.1),transparent 70%)"></div>
     <div class="hero-l">
-      <div class="badge"><span class="badge-dot"></span><span class="badge-txt">Made for Indian doctors · WhatsApp-first
+      <div class="badge h-a a1"><span class="badge-dot"></span><span class="badge-txt">Made for Indian doctors ·
+          WhatsApp-first
           🇮🇳</span></div>
-      <h1>Your patients deserve a <span class="it">better</span> prescription experience</h1>
-      <p class="hero-p"><strong>Snap a photo of your handwritten prescription.</strong> Patient receives it on WhatsApp
+      <h1 class="h-a a2">Your patients deserve a <span class="it">better</span> prescription experience</h1>
+      <p class="hero-p h-a a3"><strong>Snap a photo of your handwritten prescription.</strong> Patient receives it on
+        WhatsApp
         in seconds
         — clean, readable, with a professional PDF attached. Auto follow-ups are handled seamlessly.</p>
-      <div class="btns">
+      <div class="btns h-a a4">
         <a href="#how" class="btn btn-grad">See it in action <svg width="15" height="15" fill="none" viewBox="0 0 24 24"
             stroke="currentColor" stroke-width="2.5">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg></a>
         <a href="#features" class="btn btn-out">Explore features</a>
       </div>
-      <div class="stats">
+      <div class="stats h-a a5">
         <div class="stat">
-          <div class="stat-v">20s</div>
+          <div class="stat-v" data-count="20" data-suffix="s">20s</div>
           <div class="stat-l">From photo<br>to patient</div>
         </div>
         <div class="stat">
@@ -1718,12 +2005,12 @@
           <div class="stat-l">Apps to<br>install</div>
         </div>
         <div class="stat">
-          <div class="stat-v">100%</div>
+          <div class="stat-v" data-count="100" data-suffix="%">100%</div>
           <div class="stat-l">Works on<br>WhatsApp</div>
         </div>
       </div>
     </div>
-    <div class="hero-r">
+    <div class="hero-r h-a a3">
       <div class="hero-phone">
         <div class="hp-notch"></div>
         <div class="hp-screen">
@@ -2126,24 +2413,42 @@
       document.getElementById('nav').classList.toggle('up', scrollY > 20);
     }, { passive: true });
 
-    // Mobile nav
+    // Mobile nav – smooth open/close via display+reflow trick
     function toggleNav() {
       const m = document.getElementById('mob-nav');
       const h = document.getElementById('ham');
-      const o = m.classList.toggle('open');
+      const isOpen = m.classList.contains('open');
+      if (!isOpen) {
+        m.style.display = 'flex';
+        void m.offsetHeight; // force reflow → enables CSS transition
+        m.classList.add('open');
+      } else {
+        m.classList.remove('open');
+        m.addEventListener('transitionend', () => {
+          if (!m.classList.contains('open')) m.style.display = '';
+        }, { once: true });
+      }
+      const o = !isOpen;
       h.children[0].style.transform = o ? 'rotate(45deg) translate(5px,5px)' : '';
       h.children[1].style.opacity = o ? 0 : 1;
       h.children[2].style.transform = o ? 'rotate(-45deg) translate(5px,-5px)' : '';
       document.body.style.overflow = o ? 'hidden' : '';
     }
+
     function closeMob() {
-      document.getElementById('mob-nav').classList.remove('open');
+      const m = document.getElementById('mob-nav');
       const h = document.getElementById('ham');
+      if (!m.classList.contains('open')) return;
+      m.classList.remove('open');
+      m.addEventListener('transitionend', () => {
+        if (!m.classList.contains('open')) m.style.display = '';
+      }, { once: true });
       h.children[0].style.transform = '';
       h.children[1].style.opacity = 1;
       h.children[2].style.transform = '';
       document.body.style.overflow = '';
     }
+
     document.addEventListener('click', e => {
       if (!e.target.closest('nav') && !e.target.closest('#mob-nav')) closeMob();
     });
@@ -2155,6 +2460,30 @@
       });
     }, { threshold: .08, rootMargin: '0px 0px -24px 0px' });
     document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+    // Stat counter animation (smooth-step ease)
+    function countUp(el, to, suffix, dur) {
+      const t0 = performance.now();
+      (function tick(t) {
+        const p = Math.min((t - t0) / dur, 1);
+        const v = Math.round(p * p * (3 - 2 * p) * to);
+        el.textContent = v + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = to + suffix;
+      })(t0);
+    }
+
+    const statsEl = document.querySelector('.stats');
+    if (statsEl) {
+      new IntersectionObserver((entries, o) => {
+        if (!entries[0].isIntersecting) return;
+        o.disconnect();
+        statsEl.querySelectorAll('.stat-v[data-count]').forEach(el => {
+          const to = +el.dataset.count, suffix = el.dataset.suffix || '';
+          if (to > 0) countUp(el, to, suffix, 1400);
+        });
+      }, { threshold: .5 }).observe(statsEl);
+    }
   </script>
 </body>
 
