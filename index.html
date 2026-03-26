@@ -71,26 +71,13 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: var(--border);
+      background: var(--grad);
       border-radius: 10px;
-      border: 3px solid var(--bg);
+      border: 2px solid var(--bg);
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: var(--ink3);
-    }
-
-    /* Scroll Progress Bar */
-    #progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 4px;
-      background: var(--grad);
-      z-index: 9999;
-      transition: width 0.1s ease-out;
-      border-radius: 0 4px 4px 0;
+      background: linear-gradient(135deg, #2563eb 0%, #15803d 100%);
     }
 
     body::before {
@@ -246,26 +233,6 @@
       border-radius: 100px;
       transition: all .25s ease;
       position: relative;
-    }
-
-    /* Animated underline for non-CTA nav links */
-    .nav-links a:not(.nav-cta)::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: 6px;
-      left: 50%;
-      background: var(--b3);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      transform: translateX(-50%);
-      border-radius: 2px;
-      opacity: 0;
-    }
-
-    .nav-links a:not(.nav-cta):hover::after {
-      width: calc(100% - 36px);
-      opacity: 1;
     }
 
     .nav-links a:hover {
@@ -2049,8 +2016,6 @@
 </head>
 
 <body>
-  <!-- Scroll Progress -->
-  <div id="progress-bar"></div>
 
   <!-- NAV -->
   <nav id="nav">
@@ -2536,12 +2501,6 @@
           a.classList.add('active');
         }
       });
-
-      // 3. Scroll Progress Bar
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      document.getElementById('progress-bar').style.width = scrolled + '%';
     }, { passive: true });
 
     // Mobile nav – smooth open/close via display+reflow trick

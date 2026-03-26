@@ -26,6 +26,9 @@
       --bg: #f8faff;
       --white: #fff;
       --border: #e2e8f0;
+      /* Extended custom colors */
+      --sel-bg: rgba(37, 99, 235, 0.2);
+      --sel-col: var(--b3);
     }
 
     * {
@@ -39,6 +42,29 @@
       overflow-x: hidden;
     }
 
+    ::selection {
+      background: var(--sel-bg);
+      color: var(--sel-col);
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--grad);
+      border-radius: 10px;
+      border: 2px solid var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #15803d 100%);
+    }
+
     body::before {
       content: "";
       position: fixed;
@@ -47,6 +73,19 @@
       pointer-events: none;
       opacity: .05;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")
+    }
+
+    /* Global ambient glow */
+    body::after {
+      content: '';
+      position: absolute;
+      top: -20vh;
+      right: -20vw;
+      width: 60vw;
+      height: 60vh;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     body {
@@ -108,6 +147,7 @@
       padding: 10px 18px;
       border-radius: 100px;
       transition: all .25s ease;
+      position: relative;
     }
 
     .nav-links a:hover {
